@@ -17,7 +17,7 @@
 #   conda install -c conda-forge "scikit-image>=0.19" tifffile numpy scipy matplotlib pandas
 #   pip install PySimpleGUI
 # =====================================================================================
-
+# line 688 # <-- new line: enforce a floor on the auto threshold
 
 # %% Imports
 
@@ -685,6 +685,8 @@ def detect_polymerized_microtubules(tuj1_img, microtubuleThreshold, tubuleThickn
 
         microtubuleThreshold = grid_scan_baseline(tuj1)
         microtubuleThreshold = np.floor(microtubuleThreshold * 1.1)
+        microtubuleThreshold = max(microtubuleThreshold, 25)   # <-- new line: enforce a floor on the auto threshold
+
 
         print(f"Auto-estimated microtubuleThreshold: {microtubuleThreshold}")
 
