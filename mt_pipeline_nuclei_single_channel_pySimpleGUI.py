@@ -1271,11 +1271,6 @@ def fiji_edm_watershed(
     # We explicitly retain the zero-valued watershed ridge.
     # -------------------------------------------------------------------------
 
-    result = np.zeros_like(
-        binary_mask,
-        dtype=bool
-    )
-    
     # Expand watershed boundary by 1 pixel on each side
     watershed_line = watershed_labels == 0
     watershed_line = binary_dilation(
@@ -1283,23 +1278,30 @@ def fiji_edm_watershed(
         structure=np.ones((3, 3), dtype=bool)
     )
     
+    # Remove the expanded watershed line BEFORE area measurement
+    watershed_labels[watershed_line] = 0
+    
+    result = np.zeros_like(
+        binary_mask,
+        dtype=bool
+    )
+    
     labeled_regions = measure.label(
         watershed_labels,
         connectivity=1
     )
-
+    
     for region in measure.regionprops(
         labeled_regions
     ):
-
+    
         if region.area < min_area:
-
             continue
-
+    
         result[
             labeled_regions == region.label
         ] = True
-
+    
     return result
 
 
