@@ -1271,9 +1271,9 @@ def fiji_edm_watershed(
     # We explicitly retain the zero-valued watershed ridge.
     # -------------------------------------------------------------------------
 
-   result = np.zeros_like(
-    binary_mask,
-    dtype=bool
+    result = np.zeros_like(
+        binary_mask,
+        dtype=bool
     )
     
     # Expand watershed boundary by 1 pixel on each side
